@@ -24,4 +24,10 @@ export const createAction = () => {
     return [ emitter, stream ]
 }
 
+export const createActionProperty = (currentValueF) => {
+    const [ action, stream$ ] = createAction()
+
+    return [ action, stream$.toProperty(currentValueF) ]
+}
+
 export const createStore = update
