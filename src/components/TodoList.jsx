@@ -10,7 +10,7 @@ import todos$, * as actions from 'stores/todos'
 import { createActionProperty } from 'utils/observable'
 
 const FILTERS = [
-    { value: undefined, name:' All' },
+    { value: undefined, name: 'All' },
     { value: false, name: 'Active' },
     { value: true, name: 'Completed' }
 ]
@@ -49,7 +49,11 @@ export default () => {
                         onDelete={actions.deleteTodo} />
                 ))}
             </div>
-            <TodoFooter todos={todos$} filters={FILTERS} onFilter={setFilter} />
+            <TodoFooter
+                todos={todos$}
+                filters={FILTERS}
+                onFilter={setFilter}
+                onClearCompleted={actions.clearCompleted} />
         </div>
     )
 }

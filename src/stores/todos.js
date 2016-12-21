@@ -4,7 +4,7 @@ import { createAction, createStore } from 'utils/observable'
 const [ addTodo, addTodo$ ] = createAction()
 const [ deleteTodo, deleteTodo$ ] = createAction()
 const [ toggleComplete, toggleComplete$ ] = createAction()
-const [ removeCompleted, removeCompleted$ ] = createAction()
+const [ clearCompleted, clearCompleted$ ] = createAction()
 
 export default createStore(
     [],
@@ -24,8 +24,8 @@ export default createStore(
         ? R.merge(it, { completed: !it.completed })
         : it),
 
-    [removeCompleted$],
+    [clearCompleted$],
     (state) => state.filter((it) => !it.completed)
 )
 
-export { addTodo, deleteTodo, toggleComplete, removeCompleted }
+export { addTodo, deleteTodo, toggleComplete, clearCompleted }

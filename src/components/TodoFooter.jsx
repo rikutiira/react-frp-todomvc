@@ -2,7 +2,7 @@ import React from 'karet'
 import R from 'ramda'
 import * as U from 'karet.util'
 
-export default ({ todos, filters, onFilter }) => {
+export default ({ todos, filters, onFilter, onClearCompleted }) => {
     const remaining = U.length(U.filter(({ completed }) => !completed, todos))
 
     return (
@@ -13,10 +13,14 @@ export default ({ todos, filters, onFilter }) => {
                     <a
                         key={idx}
                         children={name}
-                        href={'#/'+value}
+                        href={'#/' + name.toLowerCase()}
                         onClick={() => onFilter(value)} />
                 ))}
             </div>
+            <a href="#" onClick={(e) => {
+                e.preventDefault()
+                onClearCompleted()
+            }}>Clear completed</a>
         </div>
     )
 }
