@@ -1,7 +1,7 @@
 import React from 'karet'
 import Kefir from 'kefir'
 import R from 'ramda'
-import { seq, mapIndexed } from 'karet.util'
+import * as U from 'karet.util'
 
 import TodoItem from 'components/TodoItem.jsx'
 import TodoFooter from 'components/TodoFooter.jsx'
@@ -39,7 +39,7 @@ export default () => {
                     }
                 }}/>
             <div>
-                {seq(visibleTodos$, mapIndexed(({ id, name, completed }, idx) =>
+                {U.seq(visibleTodos$, U.mapIndexed(({ id, name, completed }, idx) =>
                     <TodoItem
                         id={id}
                         name={name}
