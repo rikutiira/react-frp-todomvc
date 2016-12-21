@@ -7,7 +7,7 @@ export default ({ todos, filters, onFilter }) => {
 
     return (
         <div>
-            <span>{ U.length(remaining) } items left</span>
+            <span>{U.length(remaining)} items left</span>
             <div>
                 {U.seq(filters, U.mapIndexed(({ value, name }, idx) =>
                     <a
