@@ -19,7 +19,11 @@ export const createAction = () => {
     let _emitter
 
     const stream = Kefir.stream((__emitter) => _emitter = __emitter)
-    const emitter = (...args) => _emitter.value(...args)
+    const emitter = (...args) => {
+        if (_emitter) {
+            _emitter.value(...args)
+        }
+    }
 
     return [ emitter, stream ]
 }
