@@ -21,7 +21,7 @@ module.exports = {
             loader: 'babel-loader',
             include: /src/,
             options: {
-                cacheDirectory: true
+                cacheDirectory: false
             },
         }, {
             test: /\.css$/,
