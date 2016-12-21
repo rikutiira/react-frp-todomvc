@@ -8,6 +8,8 @@ The code in this example project shows how to write React code in the following 
 - Your UI components can still remain agnostic to whether they are working with observables or plain JS types.
 - As added plus, with FRP even complex asynchronous flows become much more trivial to implement.
 
+The code has been commented to explain some of the concepts behind how it works. Feel free to take a look!
+
 ## What is FRP?
 
 FRP stands for functional reactive programming and in the context of frontend development, it generally indicates the use of Observables to build reactive UIs. Popular FRP libraries for JS include [RxJS](https://github.com/Reactive-Extensions/RxJS), [Kefir](https://rpominov.github.io/kefir/) and [Bacon](https://baconjs.github.io/).
