@@ -1,6 +1,9 @@
 import Kefir from 'kefir'
 import R from 'ramda'
 
+/**
+ * Works similar to Bacon.update: https://github.com/baconjs/bacon.js/#bacon-update
+ */
 export const update = (initialValue, ...inputs) => {
     return Kefir.merge(R.splitEvery(2, inputs).map(([inputObss, foldF]) => {
         const inputObssWithIdx = inputObss.map((obs, idx) => ({ obs, idx }))
@@ -15,6 +18,9 @@ export const update = (initialValue, ...inputs) => {
     })).scan((prev, update) => update(prev), initialValue)
 }
 
+/**
+ * Creates a stream and a function which can be called to push values into the stream
+ */
 export const createAction = () => {
     let _emitter
 
@@ -28,10 +34,16 @@ export const createAction = () => {
     return [ emitter, stream ]
 }
 
+/**
+ * Same as createAction but returns a property instead of stream
+ */
 export const createActionProperty = (currentValueF) => {
     const [ action, stream$ ] = createAction()
 
     return [ action, stream$.toProperty(currentValueF) ]
 }
 
+/**
+ * Same as update but exported as explicit function as it should be used to create stores
+ */
 export const createStore = update

@@ -4,7 +4,8 @@ export default ({ id, name, completed, onComplete, onDelete }) => (
     <div>
         <input type="checkbox" checked={completed} onChange={() => onComplete(id)} />
         <span>{name}</span>
-        <a children='X'
+        <a
+            children='X'
             href="#delete"
             onClick={(e) => {
                 e.preventDefault()
