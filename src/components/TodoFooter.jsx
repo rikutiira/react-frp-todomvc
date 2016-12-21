@@ -1,9 +1,9 @@
 import React from 'karet'
 import R from 'ramda'
-import { seq, length, mapIndexed } from 'karet.util'
+import { seq, filter, length, mapIndexed } from 'karet.util'
 
 export default ({ todos, filters, onFilter }) => {
-    const remaining = todos.map((it) => R.filter(({ completed }) => !completed, it))
+    const remaining = filter(({ completed }) => !completed, todos)
 
     return (
         <div>
