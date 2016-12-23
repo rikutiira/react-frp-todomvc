@@ -14,7 +14,7 @@ import styles from './todo.scss'
 const FILTERS = [
     { value: undefined, route: '', name: 'All' },
     { value: false, route: 'active', name: 'Active' },
-    { value: true, route: 'compeleted', name: 'Completed' }
+    { value: true, route: 'completed', name: 'Completed' }
 ]
 
 console.log(styles)
