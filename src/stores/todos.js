@@ -20,7 +20,10 @@ const [ clearCompleted, clearCompleted$ ] = createAction()
  *   it in other parts of your applications, and combine it with other observables if needed.
  */
 export default createStore(
-    [],
+    [
+        { id: 1, name: 'Stuff', completed: false },
+        { id: 2, name: 'More stuff', completed: false }
+    ],
 
     [addTodo$],
     (state, name) => state.concat({
