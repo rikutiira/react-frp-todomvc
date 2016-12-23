@@ -1,0 +1,131 @@
+@import 'variables';
+
+.list {
+    background: $color-white;
+    width: 90%;
+    max-width: 800px;
+    margin: 0 auto;
+
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.25),
+                0 0 30px rgba(0, 0, 0, 0.075);
+}
+
+.add {
+    display: block;
+    width: 100%;
+    padding: 16px 16px 16px 60px;
+    font-size: 24px;
+    font-weight: 300;
+    border: none;
+    border-bottom: 1px solid $color-light;
+    outline: none;
+
+    &::placeholder {
+        color: $color-dark-light;
+        font-weight: 100;
+    }
+}
+
+.item {
+    font-size: 24px;
+    padding: 15px 60px 15px 15px;
+    font-weight: 300;
+    border-bottom: 1px solid $color-light;
+    position: relative;
+
+    input {
+        width: 40px;
+        height: 40px;
+        margin: auto 0;
+        position: absolute;
+        left: 10px;
+        top: 0;
+        bottom: 0;
+        border: none;
+        outline: none;
+        cursor: pointer;
+
+        appereance: none;
+        -webkit-appearance: none;
+
+        &::after {
+            content: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 -18 100 135"><circle cx="50" cy="50" r="50" fill="none" stroke="#{$color-light}" stroke-width="3"/></svg>');
+        }
+
+        &:checked::after {
+            content: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 -18 100 135"><circle cx="50" cy="50" r="50" fill="none" stroke="#{$color-light}" stroke-width="3"/><path fill="#5dc2af" d="M72 25L42 71 27 56l-4 4 20 20 34-52z"/></svg>')
+        }
+    }
+
+    label {
+        margin-left: 45px;
+    }
+
+    &.completed {
+        label {
+            color: $color-light;
+            text-decoration: line-through;
+        }
+    }
+
+    .close {
+        display: none;
+        color: $color-red-light;
+        position: absolute;
+        right: 15px;
+        top: 50%;
+        transform: translateY(-50%);
+        text-decoration: none;
+
+        &:hover {
+            color: $color-red;
+        }
+    }
+
+    &:hover .close {
+        display: block;
+    }
+}
+
+.footer {
+    padding: 15px;
+    position: relative;
+    text-align: center;
+    clear: both;
+
+    .remaining {
+        float: left;
+        text-align: left;
+        position: relative;
+    }
+
+    .filters {
+        position: absolute;
+        left: 0;
+        right: 0;
+
+        a {
+            color: $color-dark-light;
+            margin: 0 5px;
+            padding: 5px 10px;
+            text-decoration: none;
+            border: 1px solid $color-white;
+
+            &:hover, &.active {
+                border: 1px solid $color-red-light;
+            }
+        }
+    }
+
+    .clearCompleted {
+        color: $color-dark-light;
+        float: right;
+        text-align: right;
+        text-decoration: none;
+        position: relative;
+
+        &:hover {
+            text-decoration: underline;
+        }
+    }
+}

@@ -1,3 +1,5 @@
+require('styles/global.scss')
+
 import React from 'karet'
 import ReactDOM from 'react-dom'
 
