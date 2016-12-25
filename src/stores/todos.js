@@ -1,22 +1,15 @@
 import { createAction, createStore } from 'utils/observable'
 
-/**
- * Whenever action(value) is called, action$ emits a new value.
- * This is a way to bridge reactive programming with imperative APIs.
- */
 const [ addTodo, addTodo$ ] = createAction()
 const [ deleteTodo, deleteTodo$ ] = createAction()
 const [ toggleComplete, toggleComplete$ ] = createAction()
 const [ clearCompleted, clearCompleted$ ] = createAction()
 
 /**
- * - createStore(initialValue, ...inputs) will create an observable property
- *   with the initialValue as starting value. Whenever any of the input streams
- *   emit new values, their corresponding fold function ((state, payload) => newState)
- *   will update the current value of the store.
- *
- * - Since the store is just a normal observable, you can subsbcribe or derive data from
- *   it in other parts of your applications, and combine it with other observables if needed.
+ * createStore(initialValue, ...inputs) will create an observable property
+ * with initialValue as starting value. Whenever an input stream
+ * emits a new value, its corresponding fold function ((state, payload) => newState)
+ * will be called to update the value hold within the store.
  */
 export default createStore(
     [
@@ -43,10 +36,5 @@ export default createStore(
     (state) => state.filter((it) => !it.completed)
 )
 
-/**
- * - You expose the API which can be used to update the store.
- *
- * - Your store could also listen to any arbitrary stream (like events from server)
- *   and update itself even without imperative function calls.
- */
+// If you need to update your store through imperative calls, just expose the API you want
 export { addTodo, deleteTodo, toggleComplete, clearCompleted }

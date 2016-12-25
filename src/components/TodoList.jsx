@@ -20,19 +20,11 @@ const FILTERS = [
  * will re-render whenever they emit new values. The elements will also unsubscribe once they unmount.
  */
 export default () => {
-    /**
-     * createAction & createActionProperty can be used in models and components all the same.
-     * Useful for working with imperative APIs like DOM.
-     * See utils/observable for explanation what createAction does.
-     */
+    // action(value) will push value into action$
     const [ todoValue, todoValue$ ] = createActionProperty(R.always(''))
     const [ setFilter, filter$ ] = createActionProperty(R.always(undefined))
 
-    /**
-     * You can create derived streams before your markup code to keep your components clean.
-     * Streams are lazy so you can create them freely without worrying about doing unnecessary
-     * calculations.
-     */
+    // create derived stream here to keep JSX clean
     const visibleTodos$ = Kefir
         .combine([todos$, filter$])
         .map(([todos, filter]) => todos.filter(({ completed }) => R.isNil(filter) || completed === filter))
@@ -43,16 +35,7 @@ export default () => {
         <div>
             <h1>todos</h1>
             <div className={styles.list}>
-                { /**
-                   * - <input> will re-render whenever todoValue$ emits a new value
-                   *
-                   * - todoValue$ is a property with a current value which is why input will
-                   *   render right away with the curent value. If it was a stream, it would not render
-                   *   before the stream emitted a value.
-                   *
-                   * - todoValue() and actions.addTodo() are used to push values into their respective
-                   *   observables to update the input value and todos in model.
-                   */ }
+                { /* input re-renders when todoValue$ emits a value */ }
                 <input
                     className={styles.add}
                     type="text"
@@ -66,22 +49,7 @@ export default () => {
                         }
                     }}/>
                 <div>
-                    { /**
-                       * - Using karet.util (=U) functions, you don't have to care about whether you
-                       *   are working with observables or primitive types, they both work the same way
-                       *   which makes writing async code a lot nicer.
-                       *
-                       * - Most karet.util functions are lifted from Ramda and work the same way so
-                       *   they are both familiar and well documented.
-                       *
-                       * - Funnily enough both U.seq and U.mapIndexed aren't Ramda functions here. ;)
-                       *   They are equivalent to:
-                       *   - U.seq(collection, ...funcs) === R.pipe(...funcs)(collection)
-                       *   - U.mapIndexed === R.addIndex(R.map)
-                       *
-                       * - Note how the code looks like nice synchronous code. You don't really know that
-                       *   you are dealing with asynchronous values here.
-                       */ }
+                    { /* karet.utils (U) works with observables or plain js types */ }
                     {U.seq(visibleTodos$, U.mapCached((id) => {
                         return (
                             <TodoItem
@@ -93,11 +61,7 @@ export default () => {
                         )
                     }))}
                 </div>
-                { /**
-                   * Note how you are passing an observable to <TodoFooter>. Take a look at TodoFooter code,
-                   * it actually doesn't know it's getting an observable and would work with plain arrays just
-                   * the same.
-                   */ }
+                { /* <TodoFooter>, like <TodoItem>, does not care whether todos is observable or not */ }
                 <TodoFooter
                     todos={todos$}
                     filters={FILTERS}

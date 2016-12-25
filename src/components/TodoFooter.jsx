@@ -5,8 +5,8 @@ import styles from './todo.scss'
 const c = className(styles)
 
 /**
- * In our todomvc application, TodoFooter is being passed an observable of todos. But
- * the code here would work even if you gave it an array instead.
+ * In our todomvc application, <TodoFooter> is being passed an observable of todos.
+ * <TodoFooter> would work even if todos was a plain array instead.
  */
 export default ({ todos, filters, activeFilter, onFilter, onClearCompleted }) => {
     const remaining = U.length(U.filter(({ completed }) => !completed, todos))
