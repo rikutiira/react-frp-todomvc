@@ -12,7 +12,7 @@ module.exports = {
     output: {
         path: path.join(__dirname, 'build'),
         filename: 'scripts/bundle.js',
-        publicPath: 'http://localhost:8080/'
+        publicPath: ''
     },
     resolve: {
         root: path.join(__dirname, 'src')
@@ -27,23 +27,21 @@ module.exports = {
             },
         }, {
             test: /\.scss$/,
-            loader: `
-                style-loader!
-                css-loader?modules&localIdentName=[local]___[hash:base64:5]&sourceMap!
-                postcss-loader!
-                sass-loader?outputStyle=expanded&sourceMap!
-            `.replace(/\s/g, '')
+            loader: ExtractTextPlugin.extract('style-loader', [
+                'css-loader?modules&localIdentName=[local]___[hash:base64:5]&sourceMap',
+                'postcss-loader',
+                'sass-loader?outputStyle=expanded&sourceMap'
+            ])
         }]
     },
     plugins: [
         new HtmlWebpackPlugin({
             template: '!!html!src/index.html'
+        }),
+        new ExtractTextPlugin('styles/styles.css', {
+            disable: process.env.NODE_ENV !== 'production'
         })
-    ].concat(
-        process.env.NODE_ENV === 'production'
-            ? [new ExtractTextPlugin()]
-            : []
-    ),
+    ],
     sassLoader: {
         includePaths: [path.join(__dirname, 'src', 'styles')]
     }
