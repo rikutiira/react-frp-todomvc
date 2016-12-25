@@ -1,18 +1,22 @@
+const webpack = require('webpack')
 const path = require('path')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const ExtractTextPlugin = require('extract-text-webpack-plugin')
 
 module.exports = {
-    entry: ['./src/index.js'],
+    entry: [
+        'webpack-dev-server/client?http://localhost:8080',
+        'webpack/hot/only-dev-server',
+        './src/index.js'
+    ],
     debug: true,
     progress: true,
     colors: true,
-    watch: true,
     devtool: 'source-map',
     output: {
         path: path.join(__dirname, 'build'),
         filename: 'scripts/bundle.js',
-        publicPath: ''
+        publicPath: '/'
     },
     resolve: {
         root: path.join(__dirname, 'src')
@@ -20,8 +24,8 @@ module.exports = {
     module: {
         loaders: [{
             test: /\.jsx?$/,
-            loader: 'babel-loader',
-            include: /src/,
+            loaders: ['react-hot', 'babel'], //react-hot-loader v1 is useless with the stateless component approach, upload to v3 at some point
+            include: path.join(__dirname, 'src'),
             options: {
                 cacheDirectory: false
             },
@@ -35,6 +39,8 @@ module.exports = {
         }]
     },
     plugins: [
+        new webpack.HotModuleReplacementPlugin(),
+        new webpack.NoErrorsPlugin(),
         new HtmlWebpackPlugin({
             template: '!!html!src/index.html'
         }),
@@ -44,5 +50,9 @@ module.exports = {
     ],
     sassLoader: {
         includePaths: [path.join(__dirname, 'src', 'styles')]
+    },
+    devServer: {
+        hot: true,
+        contentBase: './build/'
     }
 }
