@@ -2,34 +2,36 @@ import React from 'karet'
 import R from 'ramda'
 import * as U from 'karet.util'
 import Kefir from 'kefir'
+import { className } from 'utils/component'
 
 import styles from './todo.scss'
 
-import routeModel from 'stores/route'
+const c = className(styles)
 
 /**
  * In our todomvc application, TodoFooter is being passed an observable of todos. But
  * the code here would work even if you gave it an array instead.
  */
-export default ({ todos, filters, onFilter, onClearCompleted }) => {
+export default ({ todos, filters, activeFilter, onFilter, onClearCompleted }) => {
     const remaining = U.length(U.filter(({ completed }) => !completed, todos))
+    const ifHasCompletedTodos = U.ift(U.not(U.equals(remaining, U.length(todos))))
 
     return (
         <div {...U.classes(styles.footer, 'cf')}>
             <span className={styles.filters}>
-                {U.seq(filters, U.mapIndexed(({ value, name, route }, idx) =>
+                {U.seq(filters, U.mapIndexed(({ value, name, id }, idx) =>
                     <a
-                        {...U.classes(U.ift(U.equals(routeModel, route), styles.active))}
+                        {...c({ active: U.equals(activeFilter, id) })}
                         key={idx}
                         children={name}
-                        href={'#/' + route}
+                        href={'#/' + id}
                         onClick={() => onFilter(value)} />
                 ))}
             </span>
 
             <span className={styles.remaining}>{remaining} items left</span>
 
-            {U.ift(U.not(U.equals(remaining, U.length(todos))),
+            {ifHasCompletedTodos(
                 <a className={styles.clearCompleted} href="#" onClick={(e) => {
                     e.preventDefault()
                     onClearCompleted()

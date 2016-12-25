@@ -7,17 +7,16 @@ import TodoItem from 'components/TodoItem.jsx'
 import TodoFooter from 'components/TodoFooter.jsx'
 
 import todos$, * as actions from 'stores/todos'
+import route$ from 'stores/route'
 import { createActionProperty } from 'utils/observable'
 
 import styles from './todo.scss'
 
 const FILTERS = [
-    { value: undefined, route: '', name: 'All' },
-    { value: false, route: 'active', name: 'Active' },
-    { value: true, route: 'compeleted', name: 'Completed' }
+    { value: undefined, id: '', name: 'All' },
+    { value: false, id: 'active', name: 'Active' },
+    { value: true, id: 'compeleted', name: 'Completed' }
 ]
-
-console.log(styles)
 
 /**
  * Components will never re-render. setState is never used anywhere and render() works as mounting function.
@@ -104,6 +103,7 @@ export default () => {
                 <TodoFooter
                     todos={todos$}
                     filters={FILTERS}
+                    activeFilter={route$}
                     onFilter={setFilter}
                     onClearCompleted={actions.clearCompleted} />
             </div>
