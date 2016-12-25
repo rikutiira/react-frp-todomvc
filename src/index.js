@@ -1,6 +1,5 @@
-//global imports
-import _1 from 'styles/global.scss'
-import _2 from 'globals'
+import 'styles/global.scss'
+import 'globals'
 
 import ReactDOM from 'react-dom'
 import TodoList from 'components/TodoList.jsx'
