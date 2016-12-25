@@ -10,7 +10,7 @@ import styles from './todo.scss'
 const FILTERS = [
     { value: undefined, id: '', name: 'All' },
     { value: false, id: 'active', name: 'Active' },
-    { value: true, id: 'compeleted', name: 'Completed' }
+    { value: true, id: 'completed', name: 'Completed' }
 ]
 
 /**
@@ -36,6 +36,8 @@ export default () => {
     const visibleTodos$ = Kefir
         .combine([todos$, filter$])
         .map(([todos, filter]) => todos.filter(({ completed }) => R.isNil(filter) || completed === filter))
+        .map(R.map(R.prop('id')))
+        .toProperty()
 
     return (
         <div>
@@ -80,15 +82,16 @@ export default () => {
                        * - Note how the code looks like nice synchronous code. You don't really know that
                        *   you are dealing with asynchronous values here.
                        */ }
-                    {U.seq(visibleTodos$, U.mapIndexed(({ id, name, completed }, idx) =>
-                        <TodoItem
-                            id={id}
-                            name={name}
-                            completed={completed}
-                            key={idx}
-                            onComplete={actions.toggleComplete}
-                            onDelete={actions.deleteTodo} />
-                    ))}
+                    {U.seq(visibleTodos$, U.mapCached((id) => {
+                        return (
+                            <TodoItem
+                                karet-lift
+                                key={id}
+                                item={U.find(R.propEq('id', id), todos$)}
+                                onComplete={actions.toggleComplete}
+                                onDelete={actions.deleteTodo} />
+                        )
+                    }))}
                 </div>
                 { /**
                    * Note how you are passing an observable to <TodoFooter>. Take a look at TodoFooter code,
