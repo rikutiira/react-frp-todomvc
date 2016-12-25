@@ -35,7 +35,11 @@ module.exports = {
             `.replace(/\s/g, '')
         }]
     },
-    plugins: [new HtmlWebpackPlugin()].concat(
+    plugins: [
+        new HtmlWebpackPlugin({
+            template: '!!html!src/index.html'
+        })
+    ].concat(
         process.env.NODE_ENV === 'production'
             ? [new ExtractTextPlugin()]
             : []
