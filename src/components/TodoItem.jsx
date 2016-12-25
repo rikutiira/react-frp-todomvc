@@ -1,6 +1,3 @@
-import React from 'karet'
-import * as U from 'karet.util'
-
 import styles from './todo.scss'
 
 export default ({ id, name, completed, onComplete, onDelete }) => (

@@ -1,6 +1,3 @@
-import Kefir from 'kefir'
-import R from 'ramda'
-
 /**
  * Works similar to Bacon.update: https://github.com/baconjs/bacon.js/#bacon-update
  */

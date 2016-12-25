@@ -1,8 +1,3 @@
-import React from 'karet'
-import Kefir from 'kefir'
-import R from 'ramda'
-import * as U from 'karet.util'
-
 import TodoItem from 'components/TodoItem.jsx'
 import TodoFooter from 'components/TodoFooter.jsx'
 

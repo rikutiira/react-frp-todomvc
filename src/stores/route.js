@@ -1,4 +1,3 @@
-import R from 'ramda'
 import { createAction, createStore } from 'utils/observable'
 
 let [ routeChange, routeChange$ ] = createAction()

@@ -1,5 +1,3 @@
-import K, * as U from 'karet.util'
-
 const className = (styles) => (...args) => ({
     className: K(...args, (...clss) => {
         const classes = clss.map((cls) => typeof cls === 'string'

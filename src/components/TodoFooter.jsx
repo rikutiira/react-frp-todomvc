@@ -1,7 +1,3 @@
-import React from 'karet'
-import R from 'ramda'
-import * as U from 'karet.util'
-import Kefir from 'kefir'
 import { className } from 'utils/component'
 
 import styles from './todo.scss'
