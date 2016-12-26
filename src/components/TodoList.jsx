@@ -54,6 +54,7 @@ export default () => {
                         return (
                             <TodoItem
                                 key={id}
+                                id={id}
                                 item={U.find(R.whereEq({ id }), todos$)}
                                 onRename={actions.renameTodo}
                                 onComplete={actions.toggleComplete}
