@@ -20,7 +20,7 @@ const FILTERS = [
  * will re-render whenever they emit new values. The elements will also unsubscribe once they unmount.
  */
 export default () => {
-    // action(value) will push value into action$, supports middleware functions before pushing into action$
+    // action(value) will push value into action$
     const [ todoValue, todoValue$ ] = createActionProperty(() => '')
 
     // create derived stream before return to keep JSX clean

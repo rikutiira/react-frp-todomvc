@@ -15,6 +15,15 @@ The code has been commented to explain some of the concepts behind how it works.
 Below is a sample of the code in the project. You can find the whole source code under `src/` if you want to have a better look.
 
 ```js
+import TodoItem from 'components/TodoItem.jsx'
+import TodoFooter from 'components/TodoFooter.jsx'
+
+import todos$, * as actions from 'stores/todos'
+import route$, { transition } from 'stores/route'
+import { createActionProperty } from 'utils/observable'
+
+import styles from './todo.scss'
+
 const FILTERS = [
     { value: undefined, id: '', name: 'All' },
     { value: false, id: 'active', name: 'Active' },
@@ -28,7 +37,7 @@ const FILTERS = [
  * will re-render whenever they emit new values. The elements will also unsubscribe once they unmount.
  */
 export default () => {
-    // action(value) will push value into action$, supports middleware functions before pushing into action$
+    // action(value) will push value into action$
     const [ todoValue, todoValue$ ] = createActionProperty(() => '')
 
     // create derived stream before return to keep JSX clean
