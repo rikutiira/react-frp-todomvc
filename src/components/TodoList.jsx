@@ -2,7 +2,7 @@ import TodoItem from 'components/TodoItem.jsx'
 import TodoFooter from 'components/TodoFooter.jsx'
 
 import todos$, * as actions from 'stores/todos'
-import route$ from 'stores/route'
+import route$, { transition } from 'stores/route'
 import { createActionProperty } from 'utils/observable'
 
 import styles from './todo.scss'
@@ -22,7 +22,10 @@ const FILTERS = [
 export default () => {
     // action(value) will push value into action$
     const [ todoValue, todoValue$ ] = createActionProperty(R.always(''))
-    const [ setFilter, filter$ ] = createActionProperty(R.always(undefined))
+    const [ setFilter, filter$ ] = createActionProperty(R.always(undefined), (id, value) => {
+        transition(id)
+        return value
+    })
 
     // create derived stream here to keep JSX clean
     const visibleTodoIds$ = Kefir

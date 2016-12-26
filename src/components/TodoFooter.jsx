@@ -20,8 +20,11 @@ export default ({ todos, filters, activeFilter, onFilter, onClearCompleted }) =>
                         {...c({ active: U.equals(activeFilter, id) })}
                         key={idx}
                         children={name}
-                        href={'#/' + id}
-                        onClick={() => onFilter(value)} />
+                        href="#"
+                        onClick={(e) => {
+                            e.preventDefault()
+                            onFilter(id, value)
+                        }} />
                 ))}
             </span>
 

@@ -1,16 +1,18 @@
 import { createAction, createStore } from 'utils/observable'
 
-let [ routeChange, routeChange$ ] = createAction()
+const [ transition, transition$ ] = createAction()
 
-window.addEventListener('hashchange', ({ newURL }) => {
-    const route = newURL.split('#/')[1] || ''
-
-    routeChange(route)
-});
-
-export default createStore(
+const route$ = createStore(
     document.location.hash.replace('#/', ''),
 
-    [routeChange$.skipDuplicates()],
+    [transition$.skipDuplicates()],
     (route, newRoute) => newRoute
 )
+
+route$.onValue((route) => {
+    window.location.hash = `#/${route}`
+})
+
+export default route$
+
+export { transition }
