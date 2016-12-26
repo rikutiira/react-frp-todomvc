@@ -31,7 +31,9 @@ export const createAction = () => {
 export const createActionProperty = (currentValueF) => {
     const [ action, stream$ ] = createAction()
 
-    return [ action, stream$.toProperty(currentValueF) ]
+    return currentValueF
+        ? [ action, stream$.toProperty(currentValueF) ]
+        : [ action, stream$.toProperty() ]
 }
 
 // Same as update but exported as explicit function as it should be used to create stores

@@ -1,6 +1,7 @@
 import { createAction, createStore } from 'utils/observable'
 
 const [ addTodo, addTodo$ ] = createAction()
+const [ renameTodo, renameTodo$ ] = createAction()
 const [ deleteTodo, deleteTodo$ ] = createAction()
 const [ toggleComplete, toggleComplete$ ] = createAction()
 const [ clearCompleted, clearCompleted$ ] = createAction()
@@ -24,6 +25,11 @@ export default createStore(
         completed: false
     }),
 
+    [renameTodo$],
+    (state, { id, name }) => state.map((it) => it.id === id
+        ? R.merge(it, { name })
+        : it),
+
     [deleteTodo$],
     (state, id) => state.filter((it) => it.id !== id),
 
@@ -37,4 +43,4 @@ export default createStore(
 )
 
 // If you need to update your store through imperative calls, just expose the API you want
-export { addTodo, deleteTodo, toggleComplete, clearCompleted }
+export { addTodo, renameTodo, deleteTodo, toggleComplete, clearCompleted }

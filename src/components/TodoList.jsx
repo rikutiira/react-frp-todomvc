@@ -55,6 +55,7 @@ export default () => {
                             <TodoItem
                                 key={id}
                                 item={U.find(R.whereEq({ id }), todos$)}
+                                onRename={actions.renameTodo}
                                 onComplete={actions.toggleComplete}
                                 onDelete={actions.deleteTodo} />
                         )
