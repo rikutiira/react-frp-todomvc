@@ -25,7 +25,7 @@ export default () => {
     const [ setFilter, filter$ ] = createActionProperty(R.always(undefined))
 
     // create derived stream here to keep JSX clean
-    const visibleTodos$ = Kefir
+    const visibleTodoIds$ = Kefir
         .combine([todos$, filter$])
         .map(([todos, filter]) => todos.filter(({ completed }) => R.isNil(filter) || completed === filter))
         .map(R.map(R.prop('id')))
@@ -50,12 +50,11 @@ export default () => {
                     }}/>
                 <div>
                     { /* karet.utils (U) works with observables or plain js types */ }
-                    {U.seq(visibleTodos$, U.mapCached((id) => {
+                    {U.seq(visibleTodoIds$, U.mapCached((id) => {
                         return (
                             <TodoItem
                                 key={id}
-                                id={id}
-                                item={U.find(R.propEq('id', id), todos$)}
+                                item={U.find(R.whereEq({ id }), todos$)}
                                 onComplete={actions.toggleComplete}
                                 onDelete={actions.deleteTodo} />
                         )
