@@ -1,5 +1,6 @@
 import { className } from 'utils/component'
 import { createActionProperty } from 'utils/observable'
+import { views } from 'utils/karet'
 import styles from './todo.scss'
 
 const c = className(styles)
@@ -9,11 +10,8 @@ const c = className(styles)
  * <TodoItem> would also work if item was plain object.
  */
 export default ({ id, item, onRename, onComplete, onDelete }) => {
-    const name = U.view('name', item)
-    const completed = U.view('completed', item)
-
+    const [ name, completed ] = views(['name', 'completed'], item)
     const [ isEditing, isEditing$ ] = createActionProperty(R.always(false))
-
     const cancel = () => isEditing(false)
     const save = (name) => {
         name ? onRename({ id, name }) : onDelete(id)
