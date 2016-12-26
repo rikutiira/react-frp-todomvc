@@ -3,12 +3,40 @@ const path = require('path')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const ExtractTextPlugin = require('extract-text-webpack-plugin')
 
-module.exports = {
-    entry: [
+const entry = {
+    development: [
         'webpack-dev-server/client?http://localhost:8080',
         'webpack/hot/only-dev-server',
         './src/index.js'
     ],
+    production: ['./src/index.js']
+}
+
+const plugins = {
+    all: [
+        new webpack.HotModuleReplacementPlugin(),
+        new webpack.NoErrorsPlugin(),
+        new HtmlWebpackPlugin({
+            template: '!!html!src/index.html'
+        })
+    ],
+    development: [
+        new ExtractTextPlugin('styles/styles.css', { disable: true })
+    ],
+    production: [
+        new ExtractTextPlugin('styles/styles.css'),
+        new webpack.DefinePlugin({
+            'process.env': {
+                NODE_ENV: JSON.stringify('production')
+            }
+        }),
+        new webpack.optimize.UglifyJsPlugin()
+    ]
+}
+
+
+module.exports = {
+    entry: entry[process.env.NODE_ENV] || entry.development,
     debug: true,
     progress: true,
     colors: true,
@@ -16,7 +44,7 @@ module.exports = {
     output: {
         path: path.join(__dirname, 'build'),
         filename: 'scripts/bundle.js',
-        publicPath: '/'
+        publicPath: ''
     },
     resolve: {
         root: path.join(__dirname, 'src')
@@ -38,16 +66,7 @@ module.exports = {
             ])
         }]
     },
-    plugins: [
-        new webpack.HotModuleReplacementPlugin(),
-        new webpack.NoErrorsPlugin(),
-        new HtmlWebpackPlugin({
-            template: '!!html!src/index.html'
-        }),
-        new ExtractTextPlugin('styles/styles.css', {
-            disable: process.env.NODE_ENV !== 'production'
-        })
-    ],
+    plugins: plugins.all.concat(plugins[process.env.NODE_ENV] || plugins.development),
     sassLoader: {
         includePaths: [path.join(__dirname, 'src', 'styles')]
     },
