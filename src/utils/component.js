@@ -11,6 +11,4 @@ const className = (styles) => (...args) => ({
     })
 })
 
-const createCb = R.curry((value, cb) => K(value, (v) => (e) => cb(v, e)))
-
-export { className, createCb }
+export { className }
