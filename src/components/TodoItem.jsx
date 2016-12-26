@@ -18,11 +18,27 @@ export default ({ item, onRename, onComplete, onDelete }) => {
 
     return (
         <div {...c(styles.item, { completed })}>
-            <input type="checkbox" checked={completed} onChange={cb(({ id }) => onComplete(id))} />
-            {U.ifte(isEditing$,
+            {U.ift(U.not(isEditing$),
+                <input type="checkbox" checked={completed} onChange={cb(({ id }) => onComplete(id))} />
+            )}
+            <label onDoubleClick={() => isEditing(true)}>{name}</label>
+            {U.ift(isEditing$,
                 <input
                     type="text"
                     value={editValue$}
+                    ref={(node) => {
+                        if (node) {
+                            const close = ({ target }) => {
+                                if (target !== node && !node.contains(target)) {
+                                    isEditing(false)
+                                    document.body.removeEventListener('click', close)
+                                }
+                            }
+
+                            document.body.addEventListener('click', close)
+                            node.focus()
+                        }
+                    }}
                     onChange={(e) => editName(e.target.value)}
                     onKeyDown={cb(({ id }, { target, keyCode }) => {
                         if (keyCode === 13) {
@@ -31,8 +47,7 @@ export default ({ item, onRename, onComplete, onDelete }) => {
                         } else if (keyCode === 27) {
                             isEditing(false)
                         }
-                    })} />,
-                <label onDoubleClick={() => isEditing(true)}>{name}</label>
+                    })} />
             )}
             <a
                 className={styles.close}

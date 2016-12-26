@@ -32,6 +32,7 @@
     font-weight: 300;
     border-bottom: 1px solid $color-light;
     position: relative;
+    user-select: none;
 
     input[type="checkbox"] {
         width: 40px;
@@ -58,8 +59,20 @@
     }
 
     label, input[type="text"] {
+        font-size: 24px;
+        font-weight: 300;
         margin-left: 45px;
-        padding: 15px 15px 15px 15px;
+    }
+
+    input[type="text"] {
+        width: calc(100% - 45px);
+        height: 100%;
+        padding: 15px;
+        position: absolute;
+        left: 0;
+        top: 0;
+        border: none;
+        outline: none;
     }
 
     &.completed {
