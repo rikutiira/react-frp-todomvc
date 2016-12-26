@@ -14,22 +14,29 @@ export const update = (initialValue, ...inputs) => {
 }
 
 // Creates a stream and a function which can be called to push values into the stream
-export const createAction = () => {
+export const createAction = (resolvableF = R.identity) => {
     let _emitter
 
     const stream = Kefir.stream((__emitter) => _emitter = __emitter)
     const emitter = (...args) => {
+        const resolvable = Promise.resolve(resolvableF(...args))
+
         if (_emitter) {
-            _emitter.value(...args)
+            resolvable.then(
+                (val) => _emitter.value(val),
+                (err) => _emitter.error(err)
+            )
         }
+
+        return resolvable
     }
 
     return [ emitter, stream ]
 }
 
 // Same as createAction but returns a property instead of stream
-export const createActionProperty = (currentValueF) => {
-    const [ action, stream$ ] = createAction()
+export const createActionProperty = (currentValueF, resolvable) => {
+    const [ action, stream$ ] = createAction(resolvable)
 
     return currentValueF
         ? [ action, stream$.toProperty(currentValueF) ]
