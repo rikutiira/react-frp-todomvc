@@ -20,16 +20,15 @@ const FILTERS = [
  * will re-render whenever they emit new values. The elements will also unsubscribe once they unmount.
  */
 export default () => {
-    // action(value) will push value into action$
-    const [ todoValue, todoValue$ ] = createActionProperty(R.always(''))
-    const [ setFilter, filter$ ] = createActionProperty(R.always(undefined), (id, value) => {
-        transition(id)
-        return value
-    })
+    // action(value) will push value into action$, supports middleware functions before pushing into action$
+    const [ todoValue, todoValue$ ] = createActionProperty(() => '')
 
-    // create derived stream here to keep JSX clean
+    // create derived stream before return to keep JSX clean
     const visibleTodoIds$ = Kefir
-        .combine([todos$, filter$])
+        .combine([
+            todos$,
+            route$.map((route) => R.find(R.propEq('id', route), FILTERS).value)
+        ])
         .map(([todos, filter]) => todos.filter(({ completed }) => R.isNil(filter) || completed === filter))
         .map(R.map(R.prop('id')))
         .toProperty()
@@ -70,7 +69,7 @@ export default () => {
                     todos={todos$}
                     filters={FILTERS}
                     activeFilter={route$}
-                    onFilter={setFilter}
+                    onFilter={transition}
                     onClearCompleted={actions.clearCompleted} />
             </div>
         </div>
