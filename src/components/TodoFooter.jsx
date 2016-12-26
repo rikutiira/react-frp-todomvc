@@ -15,7 +15,7 @@ export default ({ todos, filters, activeFilter, onFilter, onClearCompleted }) =>
     return (
         <div {...U.classes(styles.footer, 'cf')}>
             <span className={styles.filters}>
-                {U.seq(filters, U.mapIndexed(({ value, name, id }, idx) =>
+                {U.seq(filters, U.mapIndexed(({ name, id }, idx) =>
                     <a
                         {...c({ active: U.equals(activeFilter, id) })}
                         key={idx}
@@ -23,7 +23,7 @@ export default ({ todos, filters, activeFilter, onFilter, onClearCompleted }) =>
                         href="#"
                         onClick={(e) => {
                             e.preventDefault()
-                            onFilter(id, value)
+                            onFilter(id)
                         }} />
                 ))}
             </span>
