@@ -53,8 +53,8 @@ export default () => {
                     {U.seq(visibleTodos$, U.mapCached((id) => {
                         return (
                             <TodoItem
-                                karet-lift
                                 key={id}
+                                id={id}
                                 item={U.find(R.propEq('id', id), todos$)}
                                 onComplete={actions.toggleComplete}
                                 onDelete={actions.deleteTodo} />

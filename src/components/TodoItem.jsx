@@ -7,17 +7,22 @@ const c = className(styles)
  * In our todomvc application, the item passed to <TodoItem> is observable.
  * <TodoItem> would also work if item was plain object.
  */
-export default ({ item, onComplete, onDelete }) => (
-    <div {...c(styles.item, { completed: item.completed })}>
-        <input type="checkbox" checked={item.completed} onChange={() => onComplete(item.id)} />
-        <label>{U.view('name', item)}</label>
-        <a
-            className={styles.close}
-            children='x'
-            href="#delete"
-            onClick={(e) => {
-                e.preventDefault()
-                onDelete(item.id)}
-            } />
-    </div>
-)
+export default ({ item, id, onComplete, onDelete }) => {
+    const completed = U.view('completed', item)
+    const name = U.view('name', item)
+
+    return (
+        <div {...c(styles.item, { completed })}>
+            <input type="checkbox" checked={completed} onChange={() => onComplete(id)} />
+            <label>{name}</label>
+            <a
+                className={styles.close}
+                children='x'
+                href="#delete"
+                onClick={(e) => {
+                    e.preventDefault()
+                    onDelete(id)}
+                } />
+        </div>
+    )
+}
